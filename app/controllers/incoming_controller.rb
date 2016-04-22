@@ -46,4 +46,7 @@ class IncomingController < ApplicationController
 	responses
   end
 
+  def get_command_from_body body
+  end
+
 end
