@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+
+  get 'incoming/receive_messages'
+
+  post 'incoming' => 'incoming#receive_messages'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

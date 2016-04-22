@@ -50,7 +50,7 @@ module KiK
         # >>> ])
         #
 		def send_messages messages
-			response = send_post '/v1/message', {"messages" => messages.map{|m| m} }
+			response = send_post '/v1/message', {"messages" => messages }
 	    end
 
 	    def send_message
