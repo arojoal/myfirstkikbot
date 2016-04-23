@@ -12,7 +12,8 @@ module ParkingsDonostiService
 
 		data.each do |parking|
 			#puts parking.inspect
-			unless parking["Nombre"].nil? or parking["Datos"].nil? or parking["Datos"].empty? or parking["Datos"].include? "Sin informac"
+			unless parking["Nombre"].nil? or parking["Datos"].nil? or parking["Datos"].empty? \
+			 or parking["Datos"].include? "Sin informac" or parking["Datos"].include? "no disponible"
 				if String.method_defined?(:encode)
 					str = parking["Datos"].encode('UTF-16', 'UTF-8', :invalid => :replace, :replace => '') 
 					str.encode!('UTF-8', 'UTF-16')
@@ -20,8 +21,15 @@ module ParkingsDonostiService
 				  #ic = Iconv.new('UTF-8', 'UTF-8//IGNORE')
 				  #str = ic.iconv(parking["Datos"])
 				end
-				libres = str.match(/Plazas en rota.*([0-9]+) \([0-9]+%\)/)
-				porcentaje = str.match(/Plazas en rota.*[0-9]+ \(([0-9]+)%\)/)
+				datos = str.match(/Plazas en rota.* ([0-9]+) \(([0-9]+)%\)/)
+				libres = 0
+				porcentaje = 0
+				unless datos.nil?
+					libres = datos[1]
+					porcentaje = datos[2]
+				else
+					puts "Error matching: #{str}"
+				end
 				info[parking["Nombre"]] = {libres: libres, porcentaje: porcentaje}
 			end
 		end
