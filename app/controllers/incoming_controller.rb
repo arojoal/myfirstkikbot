@@ -2,8 +2,13 @@ class IncomingController < ApplicationController
   protect_from_forgery except: [:receive_messages]
 
   def receive_messages
+  	if request.headers["X-Kik-Signature"].nil?
+  		logger.info "REQUEST WITHOUT X-Kik-Signature, Exiting..."
+  		exit
+  	end
   	messages = params["messages"]
 	process_received_messages messages
+	logger.debug "SIGNATURE: #{request.headers["X-Kik-Signature"]}"
   end
 
   protected
@@ -58,9 +63,6 @@ class IncomingController < ApplicationController
         responses << response
 	end
 	responses
-  end
-
-  def get_command_from_body body
   end
 
 end
