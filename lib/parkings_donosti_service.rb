@@ -11,7 +11,7 @@ module ParkingsDonostiService
 		require 'iconv' unless String.method_defined?(:encode)
 
 		data.each do |parking|
-			puts parking.inspect
+			#puts parking.inspect
 			unless parking["Nombre"].nil? or parking["Datos"].nil? or parking["Datos"].empty? \
 			 or parking["Datos"].include? "Sin informac" or parking["Datos"].include? "no disponible"
 				if String.method_defined?(:encode)
