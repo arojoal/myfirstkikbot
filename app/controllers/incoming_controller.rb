@@ -18,7 +18,7 @@ class IncomingController < ApplicationController
   	messages.each do |message|
   		responses += process_message(message)
   	end
-	kik = KiK::Api.new ENV['RAILS_KIK_BOT_USERNAME'],ENV['RAILS_KIK_BOT_API_KEY']
+	kik = get_kik_instance
   	kik.send_messages responses
   end
 
@@ -29,13 +29,15 @@ class IncomingController < ApplicationController
 
   	# check if the received command contents a parking name or not
   	selected_parking = nil
-  	message_body = message["body"].downcase
-  	parking_names.each do |name|
-  		if !name.nil? and message_body.include? name.downcase
-	  		selected_parking = name 
-	  		break
+  	unless message["type"] == "scan-data" or message["body"].nil? or message["body"].empty?	
+	  	message_body = message["body"].downcase
+	  	parking_names.each do |name|
+	  		if !name.nil? and message_body.include? name.downcase
+		  		selected_parking = name 
+		  		break
+		  	end
 	  	end
-  	end
+	end
 
   	if selected_parking.nil?
   		#send generic message

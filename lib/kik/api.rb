@@ -79,6 +79,17 @@ module KiK
 		        }
 		    ]}
 		end
+
+		def create_code data
+	    	response = send_post '/v1/code', {"data" => data}
+	    	return response
+		end
+
+		# see color_codes at https://dev.kik.com/#/docs/messaging#kik-codes-api
+		def get_code_url code_id, color_code
+			"https://api.kik.com/v1/code/#{code_id}?c=#{color_code}"
+		end
+
 	    protected
 
 	    def send_post method, data
