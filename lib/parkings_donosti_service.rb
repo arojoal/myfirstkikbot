@@ -17,6 +17,8 @@ module ParkingsDonostiService
 				if String.method_defined?(:encode)
 					str = parking["Datos"].encode('UTF-16', 'UTF-8', :invalid => :replace, :replace => '') 
 					str.encode!('UTF-8', 'UTF-16')
+					nombre = parking["Nombre"].encode('UTF-16', 'UTF-8', :invalid => :replace, :replace => '')
+					nombre.encode!('UTF-8', 'UTF-16')					
 				else
 				  #ic = Iconv.new('UTF-8', 'UTF-8//IGNORE')
 				  #str = ic.iconv(parking["Datos"])
@@ -30,7 +32,7 @@ module ParkingsDonostiService
 				else
 					puts "Error matching: #{str}"
 				end
-				info[parking["Nombre"]] = {libres: libres, porcentaje: porcentaje}
+				info[nombre] = {libres: libres, porcentaje: porcentaje}
 			end
 		end
 		info
